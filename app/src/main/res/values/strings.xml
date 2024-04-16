@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">ExoApplication1</string>
+    <string name="nom">Nom</string>
+    <string name="email">Email</string>
+    <string name="soumettre">Soumettre</string>
+    <string name="cr_er_utilisateur">Créer Utilisateur</string>
+    <string name="valider_donn_es">Valider Données</string>
+    <string name="profil_utilisateur">Profil Utilisateur</string>
+    <string name="name">Nom:</string>
+    <string name="mail">Email:</string>
+    <string name="gender">Genre:</string>
+    <string name="to_validate" />
+    <string name="valider">Valider</string>
+    <string name="todo">TODO</string>
+    <string name="nom_d_utilisateur">Nom d\'utilisateur</string>
+    <string name="example_example_com">example@example.com</string>
+    <string name="genre">Genre</string>
+    <string name="d_connexion">Déconnexion</string>
+    <string name="retour_l_accueil">Retour à l\'accueil</string>
+    <string name="todo0">TODO</string>
+</resources>
