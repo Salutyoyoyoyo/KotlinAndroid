@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -23,37 +22,15 @@ class ThirdActivity : AppCompatActivity() {
             insets
         }
 
-        val name = intent.getStringExtra("name");
-        val email = intent .getStringExtra("email");
-        val gender = intent.getStringExtra("gender");
+        val profile = intent.getParcelableExtra("profile") as? Profile
+        findViewById<TextView>(R.id.textViewName).text = "Nom: ${profile?.name}"
+        findViewById<TextView>(R.id.textViewEmail).text = "Email: ${profile?.email}"
+        findViewById<TextView>(R.id.textViewGender).text = "Genre: ${profile?.gender}"
 
-        val textViewName = findViewById<TextView>(R.id.textViewName)
-        val textViewEmail = findViewById<TextView>(R.id.textViewEmail)
-        val textViewGender = findViewById<TextView>(R.id.textViewGender)
-
-        textViewName.text = "Nom: $name"
-        textViewEmail.text = "Email: $email"
-        textViewGender.text = "Genre: $gender"
-
-        val buttonValidate = findViewById<Button>(R.id.buttonValidate)
-        buttonValidate.setOnClickListener {
-            val intent = Intent(this, FourthActivity::class.java)
-            intent.putExtra("name", name)
-            intent.putExtra("email", email)
-            intent.putExtra("gender", gender)
-
-            startActivity(intent)
-        }
-
-        val isValid = validateData(name, email, gender);
-        if (isValid) {
-            val intent = Intent(this, FourthActivity::class.java);
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "Données invalides. Veuillez corriger les champs.", Toast.LENGTH_SHORT).show();
+        findViewById<Button>(R.id.buttonValidate).setOnClickListener {
+            startActivity(Intent(this, FourthActivity::class.java).apply {
+                putExtra("profile", profile)
+            })
         }
     }
-}
-private fun validateData(name: String?, email: String?, gender: String?): Boolean {
-    return !(name.isNullOrEmpty() || email.isNullOrEmpty() || gender.isNullOrEmpty());
 }

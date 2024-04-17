@@ -2,6 +2,8 @@ package com.example.exoapplication1
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -12,6 +14,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class SecondActivity : AppCompatActivity() {
+
+    private lateinit var editTextName: EditText
+    private lateinit var editTextEmail: EditText
+    private lateinit var spinnerGender: Spinner
+    private lateinit var buttonSubmit: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -22,28 +30,45 @@ class SecondActivity : AppCompatActivity() {
             insets
         }
 
-        val editTextName = findViewById<EditText>(R.id.editTextName)
-        val editTextEmail = findViewById<EditText>(R.id.editTextEmail)
-        val spinnerGender = findViewById<Spinner>(R.id.spinnerGender)
-        val buttonSubmit = findViewById<Button>(R.id.buttonSubmit)
+        editTextName = findViewById(R.id.editTextName)
+        editTextEmail = findViewById(R.id.editTextEmail)
+        spinnerGender = findViewById(R.id.spinnerGender)
+        buttonSubmit = findViewById(R.id.buttonSubmit)
 
-        val genderOptions = arrayOf("Homme", "Femme")
+        val genderOptions = arrayOf("Homme", "Femme", "etc +")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genderOptions)
-
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerGender.adapter = adapter
 
-        buttonSubmit.setOnClickListener {
-            val name = editTextName.text.toString();
-            val email = editTextEmail.text.toString();
-            val gender = spinnerGender.selectedItem.toString();
-
-            val intent = Intent(this, ThirdActivity::class.java);
-
-            intent.putExtra("name", name);
-            intent.putExtra("email", email);
-            intent.putExtra("gender", gender);
-            startActivity(intent);
+        val watcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                validateFields()
+            }
         }
+
+        editTextName.addTextChangedListener(watcher)
+        editTextEmail.addTextChangedListener(watcher)
+
+        buttonSubmit.isEnabled = false
+
+        buttonSubmit.setOnClickListener {
+            val name = editTextName.text.toString()
+            val email = editTextEmail.text.toString()
+            val gender = spinnerGender.selectedItem.toString()
+
+            val profile = Profile(name, email, gender)
+            val intent = Intent(this, ThirdActivity::class.java)
+            intent.putExtra("profile", profile)
+            startActivity(intent)
+        }
+    }
+
+    private fun validateFields() {
+        val name = editTextName.text.toString()
+        val email = editTextEmail.text.toString()
+        val gender = spinnerGender.selectedItem.toString()
+        buttonSubmit.isEnabled = name.isNotBlank() && email.isNotBlank() && gender.isNotBlank()
     }
 }

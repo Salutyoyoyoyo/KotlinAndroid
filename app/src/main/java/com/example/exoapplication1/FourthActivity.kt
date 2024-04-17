@@ -22,22 +22,20 @@ class FourthActivity : AppCompatActivity() {
             insets
         }
 
-        val name = intent.getStringExtra("name")
-        val email = intent.getStringExtra("email")
-        val gender = intent.getStringExtra("gender")
+        val profile = intent.getParcelableExtra<Profile>("profile")
 
         val textViewName = findViewById<TextView>(R.id.textViewName)
         val textViewEmail = findViewById<TextView>(R.id.textViewEmail)
         val textViewGender = findViewById<TextView>(R.id.textViewGender)
 
-        textViewName.text = "Nom: $name"
-        textViewEmail.text = "Email: $email"
-        textViewGender.text = "Genre: $gender"
+        textViewName.text = "Nom: ${profile?.name}"
+        textViewEmail.text = "Email: ${profile?.email}"
+        textViewGender.text = "Genre: ${profile?.gender}"
 
         val backBtn = findViewById<Button>(R.id.buttonBackToMain)
         backBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java);
-            startActivity(intent);
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 }
